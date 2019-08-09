@@ -6,5 +6,7 @@ public interface AuthorService {
     public void jpql();
     public void nativeQuery();
 
+    public void bootstrapping();
+
 
 }

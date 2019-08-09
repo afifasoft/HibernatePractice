@@ -2,10 +2,8 @@ package com.dubai.demonew.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -18,5 +16,13 @@ public class Book {
 
     private String title;
 
+    @Column(nullable = false)
+    private String titleNullable;
+
+    @NotNull
+    private String titleNotNull;
+
+    @Version
+    private int version;
 
 }

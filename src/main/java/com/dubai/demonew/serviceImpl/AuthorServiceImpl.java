@@ -2,6 +2,12 @@ package com.dubai.demonew.serviceImpl;
 
 import com.dubai.demonew.model.Author;
 import com.dubai.demonew.service.AuthorService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.boot.spi.MetadataSourcesContributor;
+import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -98,5 +104,26 @@ public class AuthorServiceImpl implements AuthorService {
 
         em.getTransaction().commit();
         em.close();
+    }
+
+    @Override
+    public void bootstrapping() {
+        log.info("....bootstrapping ....");
+        log.info("for hibernate.cfg.xml '''");
+        ServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().configure().build();
+
+        SessionFactory sessionFactory = new MetadataSources(standardRegistry)
+                .addAnnotatedClass(Author.class).buildMetadata()
+                .buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Author author = new Author();
+        author.setFirstName("Abdul");
+        author.setLastName("Atif");
+        session.persist(author);
+        session.getTransaction().commit();
+        session.close();
     }
 }
